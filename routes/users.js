@@ -39,5 +39,31 @@ router.post('/login',  function (req, res){
     res.send(resp);
 });
 
+router.post('/register',  function (req, res){
+    console.log('request', req);
+    let resp = {origin: "ymss"};
+    let resp1 = {origin: "ymss11"};
+    connection.connect();
+
+    let  querySql = 'select * from user where username = ' + req.body['username'] + ';';
+
+    connection.query(querySql,function (err, result) {
+        if(err){
+            console.log('[QUERY ERROR] - ',err.message);
+            res.send(resp1);
+            return;
+        }
+
+        console.log('-------------------QUERY-------------------');
+        console.log('1',result);
+        console.log('2', typeof result);
+        console.log('3', result[0]);
+        console.log('3', typeof result[0]);
+        connection.end();
+        res.send(resp);
+        console.log('--------------------------------------\n\n');
+    });
+});
+
 
 module.exports = router;
