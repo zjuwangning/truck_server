@@ -20,7 +20,7 @@ router.post('/login',  function (req, res){
     connection.connect();
 
     let  addSql = 'INSERT INTO user(username, password) VALUES(?,?)';
-    let  addSqlParams = [req.body['phoneNum'], req.body['password']];
+    let  addSqlParams = [req.body['username'], req.body['password']];
 
     connection.query(addSql,addSqlParams,function (err, result) {
         if(err){
