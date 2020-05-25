@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/login',  function (req, res){
-    let resp = {origin: "ymss"};
+    let resp = {};
     if (cmnFun.isEmpty(req.body['username']) || cmnFun.isEmpty(req.body['password'])) {
         res.send({data: {}, code: 2, msg: "请输入用户名及密码"});
         return ;
@@ -26,13 +26,17 @@ router.post('/login',  function (req, res){
     connection.query(querySql,function (err, result) {
         if (err) {
             console.log('mysql error', err);
-            res.send({data: {}, code: 3, msg: "数据库连接异常, 请稍后重试"});
+            resp = {data: {}, code: 3, msg: "数据库连接异常, 请稍后重试"}
+            res.send(resp);
             return;
         }
         result = JSON.parse(JSON.stringify(result));
         if (cmnFun.isEmpty(result)) {
-            resp = {data: {}, code: 1, msg: "用户名重复"};
+            resp = {data: {}, code: 1, msg: "用户名或密码错误"};
             res.send(resp);
+        }
+        else {
+
         }
     })
 });
