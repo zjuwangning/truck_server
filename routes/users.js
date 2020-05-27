@@ -15,14 +15,14 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-
+// 登录
 router.post('/login',  function (req, res){
     let resp = {};
     if (cmnFun.isEmpty(req.body['username']) || cmnFun.isEmpty(req.body['password'])) {
         res.send({data: {}, code: 2, msg: "请输入用户名及密码"});
         return ;
     }
-    let  querySql = 'select * from user where username = "' + req.body['username'] + '";';
+    let  querySql = 'select * from user where username = "' + req.body['username'] + '" and password = "' + req.body['password'] + '";' ;
     connection.query(querySql,function (err, result) {
         if (err) {
             console.log('mysql error', err);
@@ -36,11 +36,13 @@ router.post('/login',  function (req, res){
             res.send(resp);
         }
         else {
-
+            resp = {data: {username: result[0]['username']}, code: 0, msg: "登录成功"};
+            res.send(resp);
         }
     })
 });
 
+// 注册
 router.post('/register',  function (req, res){
     let resp = {};
     if (cmnFun.isEmpty(req.body['username']) || cmnFun.isEmpty(req.body['password'])) {
